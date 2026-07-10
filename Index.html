@@ -1,0 +1,584 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Для Дарины ✨</title>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Pacifico&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: #0d1117;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            user-select: none;
+            position: relative;
+        }
+
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle var(--duration) ease-in-out infinite;
+            animation-delay: var(--delay);
+            opacity: 0;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.2; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.8); }
+        }
+
+        .slides-wrapper {
+            position: relative;
+            width: 90%;
+            max-width: 420px;
+            height: 550px;
+            z-index: 10;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(22, 27, 34, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 35px 25px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0;
+            transform: translateX(60px);
+            pointer-events: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .slide.active {
+            opacity: 1;
+            transform: translateX(0);
+            pointer-events: all;
+        }
+
+        .slide.exit-left {
+            opacity: 0;
+            transform: translateX(-60px);
+            pointer-events: none;
+        }
+
+        .slide-title {
+            font-family: 'Pacifico', cursive;
+            font-size: 1.8rem;
+            color: #c9d1d9;
+            margin-bottom: 8px;
+        }
+
+        .accent {
+            color: #58a6ff;
+        }
+
+        .slide-subtitle {
+            color: #8b949e;
+            font-size: 0.85rem;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #c9d1d9;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 500;
+            font-size: 0.95rem;
+            padding: 12px 28px;
+            border-radius: 50px;
+            cursor: pointer;
+            margin: 6px;
+            transition: background 0.25s ease, border-color 0.25s ease;
+            letter-spacing: 0.5px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
+            width: auto;
+            min-width: auto;
+        }
+
+        .btn:hover {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-primary {
+            background: rgba(88, 166, 255, 0.15);
+            border-color: rgba(88, 166, 255, 0.3);
+            color: #58a6ff;
+        }
+
+        .btn-primary:hover {
+            background: rgba(88, 166, 255, 0.25);
+            border-color: #58a6ff;
+        }
+
+        .btn-success {
+            background: rgba(63, 185, 80, 0.15);
+            border-color: rgba(63, 185, 80, 0.3);
+            color: #3fb950;
+        }
+
+        .btn-success:hover {
+            background: rgba(63, 185, 80, 0.25);
+            border-color: #3fb950;
+        }
+
+        .btn-danger {
+            background: rgba(248, 81, 73, 0.15);
+            border-color: rgba(248, 81, 73, 0.3);
+            color: #f85149;
+        }
+
+        /* Убегающая кнопка — фиксирована на весь экран */
+        .runaway-btn-fixed {
+            position: fixed;
+            z-index: 9999;
+            transition: left 0.15s ease-out, top 0.15s ease-out;
+            width: auto !important;
+            min-width: auto !important;
+            max-width: none !important;
+        }
+
+        .mood-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin: 10px 0;
+        }
+
+        .mood-item {
+            font-size: 2.5rem;
+            cursor: pointer;
+            transition: transform 0.2s;
+            padding: 6px;
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .mood-item:hover {
+            transform: scale(1.2);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .compliment-text {
+            font-family: 'Caveat', cursive;
+            font-size: 1.7rem;
+            color: #8b949e;
+            min-height: 55px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 12px 0;
+            line-height: 1.3;
+        }
+
+        .question-text {
+            font-family: 'Caveat', cursive;
+            font-size: 1.7rem;
+            color: #c9d1d9;
+            margin: 10px 0;
+        }
+
+        .answer-text {
+            font-family: 'Caveat', cursive;
+            font-size: 1.3rem;
+            min-height: 35px;
+            margin: 8px 0;
+            transition: all 0.3s ease;
+        }
+
+        .counter {
+            font-size: 0.75rem;
+            color: #484f58;
+            margin-top: 5px;
+            min-height: 20px;
+        }
+
+        .final-message {
+            font-family: 'Pacifico', cursive;
+            font-size: 2.2rem;
+            color: #58a6ff;
+            margin: 15px 0;
+            animation: gentlePulse 2s ease-in-out infinite;
+        }
+
+        @keyframes gentlePulse {
+            0%, 100% { opacity: 0.8; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.03); }
+        }
+
+        .progress-dots {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 20px;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.15);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .dot.active {
+            background: #58a6ff;
+            box-shadow: 0 0 10px rgba(88, 166, 255, 0.5);
+        }
+
+        .dot.done {
+            background: #3fb950;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .buttons-row {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin: 15px 0;
+        }
+
+        @media (max-width: 500px) {
+            .slide {
+                padding: 25px 18px;
+            }
+            .slide-title {
+                font-size: 1.5rem;
+            }
+            .btn {
+                font-size: 0.85rem;
+                padding: 10px 22px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="stars" id="stars"></div>
+
+    <div class="slides-wrapper">
+
+        <!-- Слайд 1 -->
+        <div class="slide active" id="slide1">
+            <div class="slide-title">Привет, <span class="accent">Дарина</span> ✨</div>
+            <div class="slide-subtitle">Я приготовил кое-что для тебя...</div>
+            <p style="color: #8b949e; margin: 15px 0; font-size: 0.9rem;">Маленькое путешествие, <br>чтобы ты улыбнулась</p>
+            <button class="btn btn-primary" onclick="nextSlide(2)">Начать →</button>
+            <div class="progress-dots">
+                <span class="dot active"></span><span class="dot"></span><span class="dot"></span>
+                <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+            </div>
+        </div>
+
+        <!-- Слайд 2 -->
+        <div class="slide" id="slide2">
+            <div class="slide-title">Твоё настроение</div>
+            <div class="slide-subtitle">Какое оно сейчас?</div>
+            <div class="mood-grid" id="moodGrid">
+                <span class="mood-item" data-mood="счастливое">😊</span>
+                <span class="mood-item" data-mood="игривое">😜</span>
+                <span class="mood-item" data-mood="романтичное">🥰</span>
+                <span class="mood-item" data-mood="задумчивое">🤔</span>
+                <span class="mood-item" data-mood="сонное">😴</span>
+            </div>
+            <div id="moodResponse" style="color: #3fb950; margin: 10px 0; min-height: 28px;"></div>
+            <button class="btn btn-primary" id="moodNextBtn" style="opacity: 0.4;" onclick="nextSlide(3)">Дальше →</button>
+            <div class="progress-dots">
+                <span class="dot done"></span><span class="dot active"></span><span class="dot"></span>
+                <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+            </div>
+        </div>
+
+        <!-- Слайд 3 -->
+        <div class="slide" id="slide3">
+            <div class="slide-title">Кое-что важное</div>
+            <div class="slide-subtitle">Нажимай, не стесняйся</div>
+            <div class="compliment-text" id="complimentDisplay">Ты невероятная 🌸</div>
+            <button class="btn btn-primary" id="complimentBtn">💫 Ещё</button>
+            <div class="counter" id="complimentCounter">1 комплимент</div>
+            <button class="btn btn-primary" onclick="nextSlide(4)">Дальше →</button>
+            <div class="progress-dots">
+                <span class="dot done"></span><span class="dot done"></span><span class="dot active"></span>
+                <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+            </div>
+        </div>
+
+        <!-- Слайд 4: Любишь меня? -->
+        <div class="slide" id="slide4">
+            <div class="slide-title">Важный вопрос</div>
+            <p class="question-text">Дарина, ты меня любишь?</p>
+            <div class="buttons-row">
+                <button class="btn btn-success" id="yesLoveBtn">❤️ Да</button>
+                <button class="btn btn-danger" id="noLoveBtn">Нет</button>
+            </div>
+            <div class="answer-text" id="loveAnswer" style="color: #3fb950;"></div>
+            <div class="counter" id="runawayCounter1"></div>
+            <button class="btn btn-primary hidden" id="toSlide5Btn" onclick="nextSlide(5)">Дальше →</button>
+            <div class="progress-dots">
+                <span class="dot done"></span><span class="dot done"></span><span class="dot done"></span>
+                <span class="dot active"></span><span class="dot"></span><span class="dot"></span>
+            </div>
+        </div>
+
+        <!-- Слайд 5: Ты какашка? -->
+        <div class="slide" id="slide5">
+            <div class="slide-title">Ещё один вопрос</div>
+            <p class="question-text">А ты какашка? 💩</p>
+            <div class="buttons-row">
+                <button class="btn btn-success" id="yesKakaBtn">😇 Да</button>
+                <button class="btn btn-danger" id="noKakaBtn">Нет</button>
+            </div>
+            <div class="answer-text" id="kakaAnswer" style="color: #d2991d;"></div>
+            <div class="counter" id="runawayCounter2"></div>
+            <button class="btn btn-primary hidden" id="toSlide6Btn" onclick="nextSlide(6)">Финал →</button>
+            <div class="progress-dots">
+                <span class="dot done"></span><span class="dot done"></span><span class="dot done"></span>
+                <span class="dot done"></span><span class="dot active"></span><span class="dot"></span>
+            </div>
+        </div>
+
+        <!-- Слайд 6 -->
+        <div class="slide" id="slide6">
+            <div class="slide-title">Дарина</div>
+            <p style="color: #8b949e; margin: 10px 0; font-size: 1rem;">Ты самое прекрасное, <br>что случилось со мной</p>
+            <div class="final-message">Я тебя люблю ❤️</div>
+            <div style="font-size: 1.5rem; margin-top: 15px; opacity: 0.7;">💫💙✨💫</div>
+            <div class="progress-dots">
+                <span class="dot done"></span><span class="dot done"></span><span class="dot done"></span>
+                <span class="dot done"></span><span class="dot done"></span><span class="dot active"></span>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        (function() {
+            // Звёзды
+            const starsContainer = document.getElementById('stars');
+            for (let i = 0; i < 80; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.width = (Math.random() * 2.5 + 1) + 'px';
+                star.style.height = star.style.width;
+                star.style.setProperty('--duration', (Math.random() * 3 + 2) + 's');
+                star.style.setProperty('--delay', Math.random() * 5 + 's');
+                starsContainer.appendChild(star);
+            }
+
+            // Переключение слайдов
+            let currentSlide = 1;
+            window.nextSlide = function(num) {
+                const oldSlide = document.getElementById('slide' + currentSlide);
+                const newSlide = document.getElementById('slide' + num);
+                if (!oldSlide || !newSlide || num === currentSlide) return;
+                if (num > currentSlide) {
+                    oldSlide.classList.remove('active');
+                    oldSlide.classList.add('exit-left');
+                } else {
+                    oldSlide.classList.remove('active', 'exit-left');
+                }
+                newSlide.classList.remove('exit-left');
+                newSlide.classList.add('active');
+                currentSlide = num;
+            };
+
+            // Настроение
+            const moodItems = document.querySelectorAll('.mood-item');
+            const moodResponse = document.getElementById('moodResponse');
+            const moodNextBtn = document.getElementById('moodNextBtn');
+            const moodPhrases = {
+                'счастливое': ['Твоя улыбка — лучшее ☀️', 'Счастливая Дарина = счастливый я'],
+                'игривое': ['Ооо, приключения! 🎉', 'Игривая — значит весёлая!'],
+                'романтичное': ['Ты создана для любви 💕', 'Романтика с тобой — мечта'],
+                'задумчивое': ['Твои мысли прекрасны 🤍', 'Задумчивая = глубокая'],
+                'сонное': ['Самая милая соня 🥱', 'Иди в одеялко!']
+            };
+            moodItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    const phrases = moodPhrases[this.dataset.mood];
+                    moodResponse.textContent = phrases[Math.floor(Math.random() * phrases.length)];
+                    moodNextBtn.style.opacity = '1';
+                });
+            });
+
+            // Комплименты
+            const compliments = [
+                'Твои глаза — две вселенные ✨', 'Твой смех лечит душу', 'Ты самая добрая 💫',
+                'С тобой мир цветной 🌈', 'Ты пахнешь счастьем', 'Твоя улыбка — сокровище 💎',
+                'Ты — моё лучшее «случайно» 🍀', 'Твой голос — мелодия 🎵', 'Ты прекрасна всегда 💙',
+                'Рядом с тобой я дома', 'Ты делаешь дни волшебными ✨'
+            ];
+            const complimentDisplay = document.getElementById('complimentDisplay');
+            const complimentBtn = document.getElementById('complimentBtn');
+            const complimentCounter = document.getElementById('complimentCounter');
+            let complimentCount = 1, lastIndex = 0;
+            complimentBtn.addEventListener('click', function() {
+                let index;
+                do { index = Math.floor(Math.random() * compliments.length); }
+                while (index === lastIndex && compliments.length > 1);
+                lastIndex = index;
+                complimentDisplay.textContent = compliments[index];
+                complimentCount++;
+                const n = complimentCount % 100, r = complimentCount % 10;
+                let word = 'комплиментов';
+                if (!(n >= 11 && n <= 19)) {
+                    if (r === 1) word = 'комплимент';
+                    else if (r >= 2 && r <= 4) word = 'комплимента';
+                }
+                complimentCounter.textContent = complimentCount + ' ' + word;
+                complimentDisplay.style.transform = 'scale(1.05)';
+                setTimeout(() => complimentDisplay.style.transform = 'scale(1)', 200);
+            });
+
+            // ========== УБЕГАЮЩАЯ КНОПКА ПО ВСЕМУ ЭКРАНУ ==========
+            function setupRunaway(noBtn, yesBtn, counterEl, answerEl, nextBtn, successMsg) {
+                let answered = false;
+                let escapeCount = 0;
+                const messages = ['Попробуй ещё! 😏', 'Не поймаешь! 🏃', 'Быстрый! ⚡', 'Почти! 😂', 'Уворачиваюсь! 🤸', 'Не-а! 🙅'];
+                let originalParent = noBtn.parentNode;
+                let originalStyle = {
+                    position: noBtn.style.position || '',
+                    left: noBtn.style.left || '',
+                    top: noBtn.style.top || '',
+                    transform: noBtn.style.transform || ''
+                };
+
+                function getSafePosition() {
+                    const btnWidth = noBtn.offsetWidth;
+                    const btnHeight = noBtn.offsetHeight;
+                    const padding = 10;
+
+                    const maxX = window.innerWidth - btnWidth - padding;
+                    const maxY = window.innerHeight - btnHeight - padding;
+                    const minX = padding;
+                    const minY = padding;
+
+                    return {
+                        x: Math.floor(Math.random() * (maxX - minX) + minX),
+                        y: Math.floor(Math.random() * (maxY - minY) + minY)
+                    };
+                }
+
+                function escape(e) {
+                    if (answered) return;
+                    e.preventDefault();
+
+                    // Делаем кнопку fixed относительно всего экрана
+                    if (!noBtn.classList.contains('runaway-btn-fixed')) {
+                        noBtn.classList.add('runaway-btn-fixed');
+                        document.body.appendChild(noBtn);
+                    }
+
+                    const pos = getSafePosition();
+                    noBtn.style.left = pos.x + 'px';
+                    noBtn.style.top = pos.y + 'px';
+                    noBtn.style.transform = 'none';
+                    noBtn.style.margin = '0';
+
+                    escapeCount++;
+                    counterEl.textContent = `Убежал ${escapeCount} раз! ${messages[Math.floor(Math.random() * messages.length)]}`;
+                }
+
+                noBtn.addEventListener('mouseover', escape);
+                noBtn.addEventListener('touchstart', escape, { passive: false });
+
+                yesBtn.addEventListener('click', function() {
+                    if (answered) return;
+                    answered = true;
+                    answerEl.innerHTML = successMsg;
+
+                    // Возвращаем кнопку на место
+                    noBtn.classList.remove('runaway-btn-fixed');
+                    noBtn.style.position = '';
+                    noBtn.style.left = '';
+                    noBtn.style.top = '';
+                    noBtn.style.transform = '';
+                    noBtn.style.margin = '';
+                    if (noBtn.parentNode !== originalParent) {
+                        originalParent.appendChild(noBtn);
+                    }
+
+                    noBtn.style.display = 'none';
+                    yesBtn.style.display = 'none';
+                    nextBtn.classList.remove('hidden');
+                    counterEl.textContent = '';
+                });
+            }
+
+            setupRunaway(
+                document.getElementById('noLoveBtn'),
+                document.getElementById('yesLoveBtn'),
+                document.getElementById('runawayCounter1'),
+                document.getElementById('loveAnswer'),
+                document.getElementById('toSlide5Btn'),
+                'Я так и знал! ❤️<br>Ты моё всё!'
+            );
+
+            setupRunaway(
+                document.getElementById('noKakaBtn'),
+                document.getElementById('yesKakaBtn'),
+                document.getElementById('runawayCounter2'),
+                document.getElementById('kakaAnswer'),
+                document.getElementById('toSlide6Btn'),
+                'Хахаха! Самая милая какашка 💩💙'
+            );
+
+            // Сброс при ресайзе
+            window.addEventListener('resize', () => {
+                document.querySelectorAll('.runaway-btn-fixed').forEach(btn => {
+                    const pos = {
+                        x: Math.max(10, Math.min(window.innerWidth - btn.offsetWidth - 10, parseInt(btn.style.left) || 100)),
+                        y: Math.max(10, Math.min(window.innerHeight - btn.offsetHeight - 10, parseInt(btn.style.top) || 100))
+                    };
+                    btn.style.left = pos.x + 'px';
+                    btn.style.top = pos.y + 'px';
+                });
+            });
+
+        })();
+    </script>
+</body>
+</html>
